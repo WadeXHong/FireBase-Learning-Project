@@ -10,6 +10,12 @@ import android.widget.TextView;
 import com.example.wade8.firebase.Friend;
 import com.example.wade8.firebase.R;
 import com.example.wade8.firebase.Request;
+import com.example.wade8.firebase.User;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -54,6 +60,19 @@ public class FriendListRecyclerViewAdapter extends RecyclerView.Adapter<FriendLi
         }
 
         private void bind (int position){
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference ref = database.getReference().child("User").child(friendListArrayList.get(position).getFriendUID()).child("email");
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists())friendUID.setText(dataSnapshot.getValue().toString());
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
             friendUID.setText(friendListArrayList.get(position).getFriendUID());
         }
 

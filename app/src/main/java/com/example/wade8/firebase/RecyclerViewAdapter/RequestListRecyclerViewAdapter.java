@@ -12,8 +12,11 @@ import android.widget.TextView;
 import com.example.wade8.firebase.Request;
 import com.example.wade8.firebase.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -67,12 +70,30 @@ public class RequestListRecyclerViewAdapter extends RecyclerView.Adapter<Request
 
         private void bind (final int position){
             if (requestArrayList != null) {
+
+                //Firebase Database 初始化
                 final FirebaseDatabase database = FirebaseDatabase.getInstance();
                 final DatabaseReference requestRef = database.getReference().child("Friend");
                 final DatabaseReference friendListRef = database.getReference().child("FriendList");
+                DatabaseReference ref = database.getReference().child("User").child(requestArrayList.get(position).getUID()).child("email");
+
                 final String otherUID = requestArrayList.get(position).getUID();
                 final String myUID = FirebaseAuth.getInstance().getUid();
-                requestUser.setText(requestArrayList.get(position).getUID());
+
+                //改以email顯示
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists())requestUser.setText(dataSnapshot.getValue().toString());
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                //按鈕顯示行為
                 switch (requestArrayList.get(position).getRequest_status()){
                     case "send":
                         requestStatus.setVisibility(View.VISIBLE);
