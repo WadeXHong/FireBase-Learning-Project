@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.wade8.firebase.R;
-import com.example.wade8.firebase.User;
+import com.example.wade8.firebase.Request;
 
 import java.util.ArrayList;
 
@@ -16,20 +16,20 @@ import java.util.ArrayList;
  * Created by wade8 on 2018/4/10.
  */
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder>{
+public class FriendListRecyclerViewAdapter extends RecyclerView.Adapter<FriendListRecyclerViewAdapter.RecyclerViewHolder>{
 
 
-    private final ArrayList<User> userArrayList;
+    private final ArrayList<Request> friendListArrayList;
 
-    public RecyclerViewAdapter(ArrayList<User> userArrayList) {
-        this.userArrayList = userArrayList;
+    public FriendListRecyclerViewAdapter(ArrayList<Request> friendListArrayList) {
+        this.friendListArrayList = friendListArrayList;
     }
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.item_userrecyclerview,parent,false);
+        View view = inflater.inflate(R.layout.item_friendlistrecyclerview,parent,false);
         return new RecyclerViewHolder(view);
     }
 
@@ -40,20 +40,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return userArrayList.size();
+        return friendListArrayList.size();
     }
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView userEmail;
+        private TextView friendUID;
 
         public RecyclerViewHolder(View itemView) {
             super(itemView);
-            userEmail = itemView.findViewById(R.id.user_email);
+            friendUID = itemView.findViewById(R.id.friend_UID);
         }
 
         private void bind (int position){
-            userEmail.setText(userArrayList.get(position).getEmail());
+            friendUID.setText(friendListArrayList.get(position).getUID());
         }
 
     }

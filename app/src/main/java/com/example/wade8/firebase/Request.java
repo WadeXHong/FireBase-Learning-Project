@@ -4,9 +4,11 @@ package com.example.wade8.firebase;
  * Created by wade8 on 2018/4/10.
  */
 
-public class FriendRequest {
+public class Request {
 
     private String UID;
+
+    String request_status;
 
     public String getUID() {
         return UID;
@@ -24,7 +26,6 @@ public class FriendRequest {
         this.request_status = request_status;
     }
 
-    String request_status;
 
 
 }

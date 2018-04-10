@@ -60,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (currentUser != null){
             Log.d(TAG,"currentUser : " + currentUser.toString());
+            Log.d(TAG,"my UID : " + mAuth.getInstance().getUid());
             goToUserActivity();
         }
     }
