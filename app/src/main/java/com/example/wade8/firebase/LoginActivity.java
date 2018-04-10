@@ -126,7 +126,7 @@ public class LoginActivity extends AppCompatActivity {
     public void WriteToDataBase(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference user = database.getReference("User").child(mAuth.getUid()).child("email");
-        user.setValue("wade@gmail.com");
+        user.setValue(email);
     }
 
     public void AddArticleTest(View view){

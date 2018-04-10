@@ -6,6 +6,17 @@ package com.example.wade8.firebase;
 
 public class User {
     String email;
+    private String UID;
+
+
+    public String getUID() {
+        return UID;
+    }
+
+    public void setUID(String UID) {
+        this.UID = UID;
+    }
+
 
     public String getEmail() {
         return email;
