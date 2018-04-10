@@ -67,15 +67,36 @@ public class RequestListRecyclerViewAdapter extends RecyclerView.Adapter<Request
 
         private void bind (final int position){
             if (requestArrayList != null) {
+                final FirebaseDatabase database = FirebaseDatabase.getInstance();
+                final DatabaseReference requestRef = database.getReference().child("Friend");
+                final DatabaseReference friendListRef = database.getReference().child("FriendList");
+                final String otherUID = requestArrayList.get(position).getUID();
+                final String myUID = FirebaseAuth.getInstance().getUid();
                 requestUser.setText(requestArrayList.get(position).getUID());
                 switch (requestArrayList.get(position).getRequest_status()){
                     case "send":
-                    case "reject":
-                    case "accept":
                         requestStatus.setVisibility(View.VISIBLE);
                         requestStatus.setText("Status: "+ requestArrayList.get(position).getRequest_status());
                         acceptRequest.setVisibility(View.INVISIBLE);
                         denyRequest.setVisibility(View.INVISIBLE);
+                        break;
+
+                    case "reject":
+//                        requestStatus.setVisibility(View.VISIBLE);
+//                        requestStatus.setText("Status: "+ requestArrayList.get(position).getRequest_status());
+//                        acceptRequest.setVisibility(View.INVISIBLE);
+//                        denyRequest.setVisibility(View.INVISIBLE);
+                        requestRef.child(myUID).child(otherUID).child("request_status").removeValue();
+                        requestRef.child(otherUID).child(myUID).child("request_status").removeValue();
+                        break;
+
+                    case "accept":
+//                        requestStatus.setVisibility(View.VISIBLE);
+//                        requestStatus.setText("Status: "+ requestArrayList.get(position).getRequest_status());
+//                        acceptRequest.setVisibility(View.INVISIBLE);
+//                        denyRequest.setVisibility(View.INVISIBLE);
+                        requestRef.child(myUID).child(otherUID).child("request_status").removeValue();
+                        requestRef.child(otherUID).child(myUID).child("request_status").removeValue();
                         break;
 
                     case "received":
@@ -85,12 +106,10 @@ public class RequestListRecyclerViewAdapter extends RecyclerView.Adapter<Request
                         acceptRequest.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                String otherUID = requestArrayList.get(position).getUID();
-                                String myUID = FirebaseAuth.getInstance().getUid();
-                                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                DatabaseReference reference = database.getReference().child("Friend");
-                                reference.child(myUID).child(otherUID).child("request_status").setValue("added");
-                                reference.child(otherUID).child(myUID).child("request_status").setValue("added");
+                                friendListRef.child(myUID).child(otherUID).child("isFriend").setValue(true);
+                                friendListRef.child(otherUID).child(myUID).child("isFriend").setValue(true);
+                                requestRef.child(myUID).child(otherUID).child("request_status").removeValue();
+                                requestRef.child(otherUID).child(myUID).child("request_status").removeValue();
                                 Log.d(TAG,"Accept " + otherUID);
                             }
                         });
@@ -100,9 +119,8 @@ public class RequestListRecyclerViewAdapter extends RecyclerView.Adapter<Request
                                 String otherUID = requestArrayList.get(position).getUID();
                                 String myUID = FirebaseAuth.getInstance().getUid();
                                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                DatabaseReference reference = database.getReference().child("Friend");
-                                reference.child(myUID).child(otherUID).child("request_status").removeValue();
-                                reference.child(otherUID).child(myUID).child("request_status").setValue("reject");
+                                requestRef.child(myUID).child(otherUID).child("request_status").removeValue();
+                                requestRef.child(otherUID).child(myUID).child("request_status").removeValue();
                                 Log.d(TAG,"Reject " + otherUID);
                             }
                         });

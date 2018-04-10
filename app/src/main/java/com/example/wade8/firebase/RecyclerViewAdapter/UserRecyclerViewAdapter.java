@@ -11,8 +11,11 @@ import android.widget.TextView;
 import com.example.wade8.firebase.R;
 import com.example.wade8.firebase.User;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,7 +28,6 @@ import java.util.Date;
 public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerViewAdapter.RecyclerViewHolder>{
 
     private final String TAG = getClass().getSimpleName();
-
     private final ArrayList<User> userArrayList;
 
     public UserRecyclerViewAdapter(ArrayList<User> userArrayList) {
@@ -52,6 +54,7 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder{
 
+        private boolean isFriend = false ;
         private TextView userEmail;
         private Button sendRequest;
 
@@ -62,9 +65,28 @@ public class UserRecyclerViewAdapter extends RecyclerView.Adapter<UserRecyclerVi
         }
 
         private void bind (final int position){
+
             if(userArrayList != null) {
+
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference friendListRef = database.getReference().child("FriendList");
                 userEmail.setText(userArrayList.get(position).getEmail());
-                if (userArrayList.get(position).getUID().equals(FirebaseAuth.getInstance().getUid())){
+
+                friendListRef.child(FirebaseAuth.getInstance().getUid())
+                          .child(userArrayList.get(position).getUID())
+                          .child("isFriend").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists())isFriend = (boolean) dataSnapshot.getValue();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                if (userArrayList.get(position).getUID().equals(FirebaseAuth.getInstance().getUid())|isFriend){
                     sendRequest.setVisibility(View.INVISIBLE);
                 }else {
                     sendRequest.setOnClickListener(new View.OnClickListener() {

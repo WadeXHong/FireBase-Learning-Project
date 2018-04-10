@@ -25,7 +25,7 @@ public class UserActivity extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
     private ArrayList<User> userArrayList = new ArrayList<>();
     private ArrayList<Request> requestArrayList = new ArrayList<>();
-    private ArrayList<Request> friendArrayList = new ArrayList<>();
+    private ArrayList<Friend> friendArrayList = new ArrayList<>();
 
     private RecyclerView userRecyclerView;
     private UserRecyclerViewAdapter userRecyclerViewAdapter;
@@ -97,8 +97,8 @@ public class UserActivity extends AppCompatActivity {
         });
 
         //friend
-        DatabaseReference friendReference = database.getReference().child("Friend").child(FirebaseAuth.getInstance().getUid());
-        Query query = friendReference.orderByChild("request_status").equalTo("added");
+        DatabaseReference friendReference = database.getReference().child("FriendList").child(FirebaseAuth.getInstance().getUid());
+        Query query = friendReference.orderByChild("isFriend").equalTo(true);
         query.addValueEventListener(new ValueEventListener() {
 
             @Override
@@ -107,9 +107,9 @@ public class UserActivity extends AppCompatActivity {
                 if(friendArrayList.size()>0)friendArrayList.clear();
                 for(DataSnapshot snapshot:dataSnapshot.getChildren()) {
                     Friend friend = snapshot.getValue(Friend.class);
-                    friend.setUID(snapshot.getKey());
+                    friend.setFriendUID(snapshot.getKey());
                     friendArrayList.add(friend);
-                    Log.e(TAG, "FriendUID : " + friend.getUID());
+                    Log.e(TAG, "FriendUID : " + friend.getFriendUID());
                 }
                 friendListRecyclerViewAdapter.notifyDataSetChanged();
             }

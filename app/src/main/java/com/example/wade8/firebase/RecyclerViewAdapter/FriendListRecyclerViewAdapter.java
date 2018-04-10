@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.wade8.firebase.Friend;
 import com.example.wade8.firebase.R;
 import com.example.wade8.firebase.Request;
 
@@ -19,9 +20,9 @@ import java.util.ArrayList;
 public class FriendListRecyclerViewAdapter extends RecyclerView.Adapter<FriendListRecyclerViewAdapter.RecyclerViewHolder>{
 
 
-    private final ArrayList<Request> friendListArrayList;
+    private final ArrayList<Friend> friendListArrayList;
 
-    public FriendListRecyclerViewAdapter(ArrayList<Request> friendListArrayList) {
+    public FriendListRecyclerViewAdapter(ArrayList<Friend> friendListArrayList) {
         this.friendListArrayList = friendListArrayList;
     }
 
@@ -53,7 +54,7 @@ public class FriendListRecyclerViewAdapter extends RecyclerView.Adapter<FriendLi
         }
 
         private void bind (int position){
-            friendUID.setText(friendListArrayList.get(position).getUID());
+            friendUID.setText(friendListArrayList.get(position).getFriendUID());
         }
 
     }
