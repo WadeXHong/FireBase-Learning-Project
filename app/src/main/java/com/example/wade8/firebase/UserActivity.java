@@ -108,13 +108,15 @@ public class UserActivity extends AppCompatActivity {
                     friendEmailArrayList.clear();
                     friendUIDArrayList.clear();
                 }
-                    Map<String,String> friend = (HashMap<String,String>)dataSnapshot.getValue();
+                if(dataSnapshot.exists()) {
+                    Map<String, String> friend = (HashMap<String, String>) dataSnapshot.getValue();
                     Object[] values = friend.values().toArray();
                     Object[] keys = friend.values().toArray();
-                    for(int i=0 ; i<values.length;i++){
+                    for (int i = 0; i < values.length; i++) {
                         friendEmailArrayList.add((String) values[i]);
-                        friendUIDArrayList.add((String)keys[i]);
+                        friendUIDArrayList.add((String) keys[i]);
                     }
+                }
                 friendListRecyclerViewAdapter.notifyDataSetChanged();
             }
 
