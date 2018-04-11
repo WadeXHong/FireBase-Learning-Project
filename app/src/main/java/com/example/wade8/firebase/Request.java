@@ -8,6 +8,16 @@ public class Request {
 
     private String UID;
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    private String email;
+
     String request_status;
 
     public String getUID() {

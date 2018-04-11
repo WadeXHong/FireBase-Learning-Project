@@ -6,17 +6,20 @@ package com.example.wade8.firebase;
 
 public class Friend {
 
+
     private String friendUID;
+    private String friendEmail;
+//    boolean isFriend;
 
-    public boolean isFriend() {
-        return isFriend;
-    }
 
-    public void setFriend(boolean friend) {
-        isFriend = friend;
-    }
+//    public boolean isFriend() {
+//        return isFriend;
+//    }
 
-    boolean isFriend;
+//    public void setFriend(boolean friend) {
+//        isFriend = friend;
+//    }
+
 
     public String getFriendUID() {
         return friendUID;
@@ -27,5 +30,11 @@ public class Friend {
     }
 
 
+    public String getFriendEmail() {
+        return friendEmail;
+    }
 
+    public void setFriendEmail(String friendEmail) {
+        this.friendEmail = friendEmail;
+    }
 }

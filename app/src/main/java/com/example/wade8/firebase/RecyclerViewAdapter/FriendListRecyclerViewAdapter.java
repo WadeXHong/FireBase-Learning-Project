@@ -26,9 +26,9 @@ import java.util.ArrayList;
 public class FriendListRecyclerViewAdapter extends RecyclerView.Adapter<FriendListRecyclerViewAdapter.RecyclerViewHolder>{
 
 
-    private final ArrayList<Friend> friendListArrayList;
+    private final ArrayList<String> friendListArrayList;
 
-    public FriendListRecyclerViewAdapter(ArrayList<Friend> friendListArrayList) {
+    public FriendListRecyclerViewAdapter(ArrayList<String> friendListArrayList) {
         this.friendListArrayList = friendListArrayList;
     }
 
@@ -61,19 +61,19 @@ public class FriendListRecyclerViewAdapter extends RecyclerView.Adapter<FriendLi
 
         private void bind (int position){
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference ref = database.getReference().child("User").child(friendListArrayList.get(position).getFriendUID()).child("email");
-            ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists())friendUID.setText(dataSnapshot.getValue().toString());
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-            friendUID.setText(friendListArrayList.get(position).getFriendUID());
+//            DatabaseReference ref = database.getReference().child("User").child(friendListArrayList.get(position).getFriendUID()).child("email");
+//            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//                    if (dataSnapshot.exists())friendUID.setText(dataSnapshot.getValue().toString());
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError databaseError) {
+//
+//                }
+//            });
+            friendUID.setText(friendListArrayList.get(position));
         }
 
     }

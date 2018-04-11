@@ -28,7 +28,9 @@ public class RequestListRecyclerViewAdapter extends RecyclerView.Adapter<Request
 
     private final String TAG = getClass().getSimpleName();
 
-    private final ArrayList<Request> requestArrayList;
+    private ArrayList<Request> requestArrayList;
+
+    private String email;
 
     public RequestListRecyclerViewAdapter(ArrayList<Request> requestArrayList) {
         this.requestArrayList = requestArrayList;
@@ -75,16 +77,20 @@ public class RequestListRecyclerViewAdapter extends RecyclerView.Adapter<Request
                 final FirebaseDatabase database = FirebaseDatabase.getInstance();
                 final DatabaseReference requestRef = database.getReference().child("Friend");
                 final DatabaseReference friendListRef = database.getReference().child("FriendList");
-                DatabaseReference ref = database.getReference().child("User").child(requestArrayList.get(position).getUID()).child("email");
+                final DatabaseReference ref = database.getReference().child("User");
 
                 final String otherUID = requestArrayList.get(position).getUID();
                 final String myUID = FirebaseAuth.getInstance().getUid();
 
                 //改以email顯示
-                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                ref.child(requestArrayList.get(position).getUID()).child("email").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists())requestUser.setText(dataSnapshot.getValue().toString());
+                        if (dataSnapshot.exists()){
+                            email = dataSnapshot.getValue().toString();
+                            requestUser.setText(email);
+
+                        }
                     }
 
                     @Override
@@ -127,8 +133,10 @@ public class RequestListRecyclerViewAdapter extends RecyclerView.Adapter<Request
                         acceptRequest.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                friendListRef.child(myUID).child(otherUID).child("isFriend").setValue(true);
-                                friendListRef.child(otherUID).child(myUID).child("isFriend").setValue(true);
+                                ref.child(myUID).child("Friend").child(otherUID).setValue(email);
+//                                friendListRef.child(myUID).child(otherUID).child("isFriend").setValue(true);
+                                ref.child(otherUID).child("Friend").child(myUID).setValue(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+//                                friendListRef.child(otherUID).child(myUID).child("isFriend").setValue(true);
                                 requestRef.child(myUID).child(otherUID).child("request_status").removeValue();
                                 requestRef.child(otherUID).child(myUID).child("request_status").removeValue();
                                 Log.d(TAG,"Accept " + otherUID);

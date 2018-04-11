@@ -10,22 +10,23 @@ import com.example.wade8.firebase.RecyclerViewAdapter.FriendListRecyclerViewAdap
 import com.example.wade8.firebase.RecyclerViewAdapter.RequestListRecyclerViewAdapter;
 import com.example.wade8.firebase.RecyclerViewAdapter.UserRecyclerViewAdapter;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserActivity extends AppCompatActivity {
 
     private final String TAG = getClass().getSimpleName();
     private ArrayList<User> userArrayList = new ArrayList<>();
     private ArrayList<Request> requestArrayList = new ArrayList<>();
-    private ArrayList<Friend> friendArrayList = new ArrayList<>();
+    private ArrayList<String> friendEmailArrayList = new ArrayList<>();
+    private ArrayList<String> friendUIDArrayList = new ArrayList<>();
 
     private RecyclerView userRecyclerView;
     private UserRecyclerViewAdapter userRecyclerViewAdapter;
@@ -97,20 +98,23 @@ public class UserActivity extends AppCompatActivity {
         });
 
         //friend
-        DatabaseReference friendReference = database.getReference().child("FriendList").child(FirebaseAuth.getInstance().getUid());
-        Query query = friendReference.orderByChild("isFriend").equalTo(true);
-        query.addValueEventListener(new ValueEventListener() {
+        DatabaseReference friendReference = database.getReference().child("User").child(FirebaseAuth.getInstance().getUid()).child("Friend");
+        friendReference.addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.d(TAG,"onDataChange excuted");
-                if(friendArrayList.size()>0)friendArrayList.clear();
-                for(DataSnapshot snapshot:dataSnapshot.getChildren()) {
-                    Friend friend = snapshot.getValue(Friend.class);
-                    friend.setFriendUID(snapshot.getKey());
-                    friendArrayList.add(friend);
-                    Log.e(TAG, "FriendUID : " + friend.getFriendUID());
+                if(friendEmailArrayList.size()>0) {
+                    friendEmailArrayList.clear();
+                    friendUIDArrayList.clear();
                 }
+                    Map<String,String> friend = (HashMap<String,String>)dataSnapshot.getValue();
+                    Object[] values = friend.values().toArray();
+                    Object[] keys = friend.values().toArray();
+                    for(int i=0 ; i<values.length;i++){
+                        friendEmailArrayList.add((String) values[i]);
+                        friendUIDArrayList.add((String)keys[i]);
+                    }
                 friendListRecyclerViewAdapter.notifyDataSetChanged();
             }
 
@@ -128,11 +132,11 @@ public class UserActivity extends AppCompatActivity {
 //            public void onDataChange(DataSnapshot dataSnapshot) {
 //
 //                Log.d(TAG,"onDataChange excuted");
-//                if(friendArrayList.size()>0) friendArrayList.clear();
+//                if(friendEmailArrayList.size()>0) friendEmailArrayList.clear();
 //                for(DataSnapshot snapshot:dataSnapshot.getChildren()){
 //                    Friend friend = snapshot.getValue(Friend.class);
 //                    friend
-//                    friendArrayList.add(friend);
+//                    friendEmailArrayList.add(friend);
 //                    Log.d(TAG,"request otherside UID : "+ request.getUID());
 //                    Log.d(TAG,"request otherside UID : "+ request.getRequest_status());
 //                }
@@ -166,7 +170,7 @@ public class UserActivity extends AppCompatActivity {
         friendRecyclerView = findViewById(R.id.friend_recyclerview);
         friendListLinearLayoutManager = new LinearLayoutManager(this);
         friendRecyclerView.setLayoutManager(friendListLinearLayoutManager);
-        friendListRecyclerViewAdapter = new FriendListRecyclerViewAdapter(friendArrayList);
+        friendListRecyclerViewAdapter = new FriendListRecyclerViewAdapter(friendEmailArrayList);
         friendRecyclerView.setAdapter(friendListRecyclerViewAdapter);
     }
 }
