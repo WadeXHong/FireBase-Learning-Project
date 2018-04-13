@@ -1,4 +1,4 @@
-package com.example.wade8.firebase.RecyclerViewAdapter;
+package com.example.wade8.firebasetest.RecyclerViewAdapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.wade8.firebase.R;
-import com.example.wade8.firebase.User;
+import com.example.wade8.firebasetest.R;
+import com.example.wade8.firebasetest.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,8 +18,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by wade8 on 2018/4/10.

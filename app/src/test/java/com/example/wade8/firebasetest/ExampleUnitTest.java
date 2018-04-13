@@ -1,4 +1,4 @@
-package com.example.wade8.firebase;
+package com.example.wade8.firebasetest;
 
 import org.junit.Test;
 

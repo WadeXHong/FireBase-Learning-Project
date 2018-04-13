@@ -1,4 +1,4 @@
-package com.example.wade8.firebase;
+package com.example.wade8.firebasetest;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

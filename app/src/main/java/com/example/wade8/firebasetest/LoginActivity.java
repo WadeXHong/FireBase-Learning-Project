@@ -1,4 +1,4 @@
-package com.example.wade8.firebase;
+package com.example.wade8.firebasetest;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -138,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
         reference.child("author").setValue(mAuth.getUid());
         reference.child("content").setValue("is a");
         reference.child("tag").setValue("struggle");
-        reference.child("createdtime").setValue(currentTime.getTime());
+        reference.child("createdTime").setValue(currentTime.getTime());
 
     }
 }

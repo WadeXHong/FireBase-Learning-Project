@@ -1,4 +1,4 @@
-package com.example.wade8.firebase;
+package com.example.wade8.firebasetest;
 
 /**
  * Created by wade8 on 2018/4/10.

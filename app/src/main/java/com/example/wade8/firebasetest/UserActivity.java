@@ -1,4 +1,4 @@
-package com.example.wade8.firebase;
+package com.example.wade8.firebasetest;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -6,9 +6,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.example.wade8.firebase.RecyclerViewAdapter.FriendListRecyclerViewAdapter;
-import com.example.wade8.firebase.RecyclerViewAdapter.RequestListRecyclerViewAdapter;
-import com.example.wade8.firebase.RecyclerViewAdapter.UserRecyclerViewAdapter;
+import com.example.wade8.firebasetest.RecyclerViewAdapter.FriendListRecyclerViewAdapter;
+import com.example.wade8.firebasetest.RecyclerViewAdapter.RequestListRecyclerViewAdapter;
+import com.example.wade8.firebasetest.RecyclerViewAdapter.UserRecyclerViewAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -111,7 +111,7 @@ public class UserActivity extends AppCompatActivity {
                 if(dataSnapshot.exists()) {
                     Map<String, String> friend = (HashMap<String, String>) dataSnapshot.getValue();
                     Object[] values = friend.values().toArray();
-                    Object[] keys = friend.values().toArray();
+                    Object[] keys = friend.keySet().toArray();
                     for (int i = 0; i < values.length; i++) {
                         friendEmailArrayList.add((String) values[i]);
                         friendUIDArrayList.add((String) keys[i]);
@@ -172,7 +172,7 @@ public class UserActivity extends AppCompatActivity {
         friendRecyclerView = findViewById(R.id.friend_recyclerview);
         friendListLinearLayoutManager = new LinearLayoutManager(this);
         friendRecyclerView.setLayoutManager(friendListLinearLayoutManager);
-        friendListRecyclerViewAdapter = new FriendListRecyclerViewAdapter(friendEmailArrayList);
+        friendListRecyclerViewAdapter = new FriendListRecyclerViewAdapter(friendEmailArrayList,friendUIDArrayList);
         friendRecyclerView.setAdapter(friendListRecyclerViewAdapter);
     }
 }

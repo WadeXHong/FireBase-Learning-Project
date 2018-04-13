@@ -1,27 +1,89 @@
 {
   "project_info": {
-    "project_number": "847149319052",
-    "firebase_url": "https://supercool-5eefc.firebaseio.com",
-    "project_id": "supercool-5eefc",
-    "storage_bucket": "supercool-5eefc.appspot.com"
+    "project_number": "671294089944",
+    "firebase_url": "https://voyage2-3f1f6.firebaseio.com",
+    "project_id": "voyage2-3f1f6",
+    "storage_bucket": "voyage2-3f1f6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:847149319052:android:115d6740811b86f8",
+        "mobilesdk_app_id": "1:671294089944:android:115d6740811b86f8",
         "android_client_info": {
           "package_name": "com.example.wade8.firebase"
         }
       },
       "oauth_client": [
         {
-          "client_id": "847149319052-udvma657bp2aa7e2p13mebifbgkre2b1.apps.googleusercontent.com",
+          "client_id": "671294089944-5hl8o0vg9sbl0arbtrbr1c47t2kb92dg.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCz-S0YV-FR388wOXQ3MJHJ8JPBsaFtfec"
+          "current_key": "AIzaSyAmaXhTMytomWLAMUGq__r2WYtIB-dJy1E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:671294089944:android:297b52825b017173",
+        "android_client_info": {
+          "package_name": "com.example.wade8.firebasetest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "671294089944-5hl8o0vg9sbl0arbtrbr1c47t2kb92dg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmaXhTMytomWLAMUGq__r2WYtIB-dJy1E"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:671294089944:android:ed719e6d8e4f2f79",
+        "android_client_info": {
+          "package_name": "com.waynechen.voyage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "671294089944-5hl8o0vg9sbl0arbtrbr1c47t2kb92dg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmaXhTMytomWLAMUGq__r2WYtIB-dJy1E"
         }
       ],
       "services": {
