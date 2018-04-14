@@ -1,6 +1,5 @@
 package com.example.wade8.firebasetest;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Article> articleArrayList = new ArrayList<>();
     private ArrayList<zArticles> zArticleArrayList = new ArrayList<>();
+    private ArrayList<zComments> zCommentsArrayList = new ArrayList<>();
 
     private String authorName;
     private String authorImageUrl;
@@ -66,23 +66,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void AddArticleTest(View view){
 
-        String alphabet = "abcdefghijklmbopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        String randomContent = "";
-        String randomTitle = "";
-        String randomUrl = "http://87.88.com/";
-        String randomTag ="";
-
-        for (int i = 0; i < 50; i++) {
-            randomContent += alphabet.charAt(r.nextInt(60));
-            randomUrl += alphabet.charAt(r.nextInt(60));
-        }
-        for (int i = 0; i < 20; i++) {
-            randomTag += alphabet.charAt(r.nextInt(60));
-            randomTitle += alphabet.charAt(r.nextInt(60));
-        }
 
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         //TODO 測試階段:目前為從zUser拿假資料 需改為從CurrentUser.get 拿
         DatabaseReference authorDataTemp = database.getReference().child("zUser").child(FirebaseAuth.getInstance().getUid()).child("profile");
@@ -92,6 +79,37 @@ public class MainActivity extends AppCompatActivity {
                 authorName = (String) dataSnapshot.child("name").getValue();
                 authorEmail = (String) dataSnapshot.child("email").getValue();
                 authorImageUrl = (String) dataSnapshot.child("imageUrl").getValue();
+                String alphabet = "abcdefghijklmbopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                String randomContent = "";
+                String randomTitle = "";
+                String randomUrl = "http://87.88.com/";
+                String randomTag ="";
+
+                for (int i = 0; i < 50; i++) {
+                    randomContent += alphabet.charAt(r.nextInt(60));
+                    randomUrl += alphabet.charAt(r.nextInt(60));
+                }
+                for (int i = 0; i < 20; i++) {
+                    randomTag += alphabet.charAt(r.nextInt(60));
+                    randomTitle += alphabet.charAt(r.nextInt(60));
+                }
+
+                Date currentTime = Calendar.getInstance().getTime();
+                DatabaseReference reference = database.getReference().child("zArticlesTest").push();
+                reference.child(Constants.ARTICLE_CREATEDTIME).setValue(currentTime.getTime());
+//        reference.child("content").setValue(content.getText().toString());
+//        reference.child("title").setValue(title.getText().toString());
+                reference.child(Constants.ARTICLE_CONTENT).setValue(randomContent);
+                reference.child(Constants.ARTICLE_TITLE).setValue(randomTitle);
+                reference.child(Constants.ARTICLE_PICTURE).setValue(randomUrl);
+//        reference.child("tag").setValue(randomTag);
+                reference.child(Constants.ARTICLE_TAG).setValue("AppWorkSchool");
+                reference.child(Constants.ARTICLE_AUTHOR_ID).setValue(FirebaseAuth.getInstance().getUid());
+                reference.child(Constants.ARTICLE_AUTHOR_NAME).setValue(authorName);
+                reference.child(Constants.ARTICLE_AUTHOR_EMAIL).setValue(authorEmail);
+                reference.child(Constants.ARTICLE_AUTHOR_IMAGE).setValue(authorImageUrl);
+                reference.child(Constants.ARTICLE_INTERESTS).setValue(87);
+                reference.child(Constants.ARTICLE_PLACE).setValue("基隆路1段178號");
             }
 
             @Override
@@ -101,32 +119,59 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
-
-        Date currentTime = Calendar.getInstance().getTime();
-        DatabaseReference reference = database.getReference().child("zArticlesTest").push();
-        reference.child(Constants.ARTICLE_CREATEDTIME).setValue(currentTime.getTime());
-//        reference.child("content").setValue(content.getText().toString());
-//        reference.child("title").setValue(title.getText().toString());
-        reference.child(Constants.ARTICLE_CONTENT).setValue(randomContent);
-        reference.child(Constants.ARTICLE_TITLE).setValue(randomTitle);
-        reference.child(Constants.ARTICLE_PICTURE).setValue(randomUrl);
-//        reference.child("tag").setValue(randomTag);
-        reference.child(Constants.ARTICLE_TAG).setValue("AppWorkSchool");
-        reference.child(Constants.ARTICLE_AUTHOR_ID).setValue(FirebaseAuth.getInstance().getUid());
-        reference.child(Constants.ARTICLE_AUTHOR_NAME).setValue(authorName);
-        reference.child(Constants.ARTICLE_AUTHOR_EMAIL).setValue(authorEmail);
-        reference.child(Constants.ARTICLE_AUTHOR_IMAGE).setValue(authorImageUrl);
-        reference.child(Constants.ARTICLE_INTERESTS).setValue(87);
-
-
     }
 
     public void FriendPage(View view) {
-        Intent intent = new Intent(this,UserActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this,UserActivity.class);
+//        startActivity(intent);
+
+
+
+
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        //TODO 測試階段:目前為從zUser拿假資料 需改為從CurrentUser.get 拿
+        DatabaseReference authorDataTemp = database.getReference().child("zUser").child(FirebaseAuth.getInstance().getUid()).child("profile");
+        authorDataTemp.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                authorName = (String) dataSnapshot.child("name").getValue();
+                authorEmail = (String) dataSnapshot.child("email").getValue();
+                authorImageUrl = (String) dataSnapshot.child("imageUrl").getValue();
+
+                String alphabet = "abcdefghijklmbopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                String randomContent = "";
+                String randomUrl = "http://87.88.com/";
+
+                for (int i = 0; i < 50; i++) {
+                    randomContent += alphabet.charAt(r.nextInt(60));
+                    randomUrl += alphabet.charAt(r.nextInt(60));
+                }
+
+                if (findbytag.getText().toString().equals("")){findbytag.setText("-L9xmATEq_L8xy6eIfXc");}
+                Date currentTime = Calendar.getInstance().getTime();
+                DatabaseReference reference = database.getReference().child("zComments").child(findbytag.getText().toString()).push();
+                reference.child(Constants.COMMENT_CREATEDTIME).setValue(currentTime.getTime());
+//        reference.child("content").setValue(content.getText().toString());
+//        reference.child("title").setValue(title.getText().toString());
+                reference.child(Constants.COMMENT_CONTENT).setValue(randomContent);
+//        reference.child("tag").setValue(randomTag);
+                reference.child(Constants.COMMENT_USER_ID).setValue(FirebaseAuth.getInstance().getUid());
+                reference.child(Constants.COMMENT_USER_NAME).setValue(authorName);
+                reference.child(Constants.COMMENT_USER_EMAIL).setValue(authorEmail);
+                reference.child(Constants.COMMENT_USER_IMAGE).setValue(authorImageUrl);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
+
+
 
     public void OrderbyTime(View view) {
 
@@ -213,6 +258,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG,"picture :"+ article.picture);
                     Log.d(TAG,"tag :"+ article.tag);
                     Log.d(TAG,"interestes :"+ article.interests);
+                    Log.d(TAG,"place :"+ article.place);
                     Log.e(TAG,"分隔線---------------------------------------");
                 }
             }

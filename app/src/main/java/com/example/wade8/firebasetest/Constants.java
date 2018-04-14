@@ -18,6 +18,15 @@ public class Constants {
     public static final String ARTICLE_INTERESTS = "interests";
     public static final String ARTICLE_PICTURE = "picture";
 
+    public static final String COMMENT_ID = "id";
+    public static final String COMMENT_USER_ID = "userId" ;
+    public static final String COMMENT_USER_IMAGE = "userImage";
+    public static final String COMMENT_USER_EMAIL = "userEmail";
+    public static final String COMMENT_USER_NAME = "userName";
+    public static final String COMMENT_CONTENT = "content";
+    public static final String COMMENT_CREATEDTIME = "createdTime";
+
+
 
 
 
